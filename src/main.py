@@ -24,7 +24,11 @@ parser = argparse.ArgumentParser(description='')
 parser.add_argument('--key', type=str, 
                     help='SAWS API key')
 parser.add_argument('--isTrial', type=bool,
-                    help='Is this a strial account?')
+                    help='Is this a trial account?')
+parser.add_argument('--lat', type=str,
+                    help='Latitude')
+parser.add_argument('--long', type=str,
+                    help='Longitude')
 args = parser.parse_args()
 
 def get_weather_data():
@@ -33,7 +37,7 @@ def get_weather_data():
     useTrial = args.isTrial
     useTimestamp = True
 
-    queryString = 'location=-33.9417555,18.4244712&groups=basic,extended,astronomical,tides'
+    queryString = 'location=%s,%s' % (args.lat, args.long)
     message = queryString + '/' + webservice + '/' + key
 
     timestamp = str(int(time.time()))
