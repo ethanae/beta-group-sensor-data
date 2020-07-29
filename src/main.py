@@ -73,10 +73,12 @@ def write_sensor_data():
     data['Irrigation'] = sensorData['soil']
     now = datetime.now()
     fileName = "%s_%s_%s.csv" % (now.year, now.month, now.day)
-    with open(fileName, 'w') as csvfile:
+    with open(fileName, 'ab+') as csvfile:
         fieldnames = ['Date', 'Temprature', 'Pressure', 'Altitude', 'Sea level', 'Soil Moisture', 'Humidity', 'wind_speed', 'rainfall', 'Irrigation']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, dialect='excel')
-	writer.writeheader() 
+    	row_count = sum(1 for row in csvfile)
+	if row_count == 0:
+	    writer.writeheader()
        	data['Date'] = now.today().strftime("%d/%m/%Y %H:%M")
         data['Sea level'] = ''
         data['Humidity'] = weather_data['humidity']
